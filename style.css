@@ -10,8 +10,8 @@
 :root {
   /* Background Colors: */
   --background-color: #eeeeee;
-  --content-background-color: #ffffff;
-  --sidebar-background-color: #ffffff;
+  --content-background-color: #dfd7b0;
+  --sidebar-background-color: #dfd7b0;
 
   /* Text Colors: */
   --text-color: #000000;
@@ -51,8 +51,11 @@ body {
   color: var(--text-color);
   font-family: var(--font);
   line-height: 1.2;
-  background: var(--background-color);
-  background-image: url("");
+  background-image: url('images/pattern_large_beige.png');
+  background-repeat: repeat; /* or repeat-x, repeat-y */
+  background-size: 512px 512px; /* Adjust this to change pattern density */
+  height: 100vh;
+  margin: 0;
   
 }
 
@@ -582,4 +585,25 @@ main h6 {
   #skip-to-content-link {
     font-size: 1rem;
   }
+}
+
+/* Center images */
+
+img.wip {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.status-frame {
+  width: 100%;
+  border: none;
+
+  background: #ede8d0;
+  border: 2px solid #000000;
+  border-radius: 10px;
+  padding: 10px;
+
+  font-family: "Ubuntu", sans-serif;
 }

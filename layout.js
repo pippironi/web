@@ -62,11 +62,16 @@ function headerHTML() {
 
       <aside class="left-sidebar">
 	  
-        
-        <div class="sidebar-section">
-          <div class="sidebar-title">Status Updates</div>
-          <iframe src="https://nikki.top/api.php?id=304&limit=5" class="status-frame"></iframe>
+      <div class="sidebar-section">
+        <div class="sidebar-title" style="display: flex; justify-content: space-between; align-items: center;">
+          Status Updates
+          <a href="https://nikki.top" target="_blank" style="display: inline-block;">
+            <img src="./buttons/nikki.png" style="padding: 10px; height: auto;">
+          </a>
         </div>
+        <iframe src="https://nikki.top/api.php?id=304&limit=5" class="status-frame"></iframe>
+      </div>
+        
       </aside>
 	
       `;

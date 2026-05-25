@@ -1,6 +1,4 @@
-/* FONT IMPORT */
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Crafty+Girls&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
   
 /* -------------------------------------------------------- */
 /* VARIABLES */
@@ -9,27 +7,32 @@
 /* Variables are used like this: var(--text-color) */
 :root {
   /* Background Colors: */
+  --notebook-size: 0.45;
   --background-color: #eeeeee;
-  --content-background-color: #dfd7b0;
-  --sidebar-background-color: #dfd7b0;
+  --content-background-color: #D0E4ED;
+  --sidebar-background-color: #D0E4ED;
 
   /* Text Colors: */
-  --text-color: #000000;
+  --text-color: #17364E;
   --sidebar-text-color: #000000;
   --link-color: #3026e8;
   --link-color-hover: #7780ec;
 
   /* Text: */
-  --font: 'Ubuntu', sans-serif;
-  --heading-font: 'Ubuntu', sans-serif;
+/*  --font: 'Ubuntu', sans-serif;
+  --heading-font: 'Ubuntu', sans-serif; */
+  --font: "Comic Neue", cursive;
+  --font-weight: 600;
+  --heading-font: "Comic Neue", cursive;
   --font-size: 14px;
 
   /* Other Settings: */
   --margin: 10px;
   --padding: 20px;
   --border: 2px solid #000000;
-  --round-borders: 0px;
+  --round-borders: 10px;
   --sidebar-width: 200px;
+  --shadows: 0px 0px #696969;
 }
 
 /* -------------------------------------------------------- */
@@ -45,16 +48,17 @@ body {
   align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
+  min-width: 1300px;
   font-size: var(--font-size);
   margin: 0;
   padding: var(--margin);
   color: var(--text-color);
   font-family: var(--font);
+  font-weight: var(--font-weight);
   line-height: 1.2;
   background-image: url('images/pattern_large_beige.png');
   background-repeat: repeat; /* or repeat-x, repeat-y */
   background-size: 512px 512px; /* Adjust this to change pattern density */
-  height: 100vh;
   margin: 0;
   
 }
@@ -106,6 +110,7 @@ main {
   background: var(--content-background-color);
   border: var(--border);
   border-radius: var(--round-borders);
+  box-shadow: var(--shadows);
 }
 
 /* -------------------------------------------------------- */
@@ -593,17 +598,217 @@ img.wip {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 90%;
+  width: 80%;
 }
 
 .status-frame {
   width: 100%;
   border: none;
 
-  background: #ede8d0;
-  border: 2px solid #000000;
-  border-radius: 10px;
-  padding: 10px;
+  padding: 0px;
 
   font-family: "Ubuntu", sans-serif;
+}
+
+/* ======================================================== */
+/* NOTEBOOK CONTAINER                                       */
+/* ======================================================== */
+
+.notebook {
+  position: relative;
+  z-index: 1; 
+  
+  
+  width: calc(1403px * var(--notebook-size));
+  height: calc(1512px * var(--notebook-size));
+  min-width: calc(1403px * var(--notebook-size)); 
+  flex-shrink: 0;    
+  
+  margin: 0px auto;
+  padding: 90px 50px 15px 0px;
+  box-sizing: border-box;
+}
+
+
+.notebook::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  
+  background-image: url('images/layout/cuaderno.png');
+  background-size: calc(1403px * var(--notebook-size)) calc(1512px * var(--notebook-size));
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(-2px 2px 4px rgba(0,0,0,0.3));
+  
+  z-index: 2; 
+  pointer-events: none;
+}
+
+.notebook .layout {
+  position: relative;
+  z-index: 3; 
+  pointer-events: auto; 
+  
+  width: 85%;
+  height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas: "main" "footer";
+  gap: 15px;
+}
+
+.notebook header { display: none !important; }
+.notebook .layout, .notebook main, .notebook footer {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.notebook main {
+  grid-area: main;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 0 20px;
+}
+
+/* ======================================================== */
+/* BOOKMARKS (Square Sticky Notes)                          */
+/* ======================================================== */
+
+.bookmarks {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  pointer-events: none; 
+}
+
+.bookmark {
+  position: relative;
+  left: -170px;   
+  height: 100px; 
+
+  cursor: pointer;
+  z-index: 1;
+  pointer-events: auto;  transition: left 0.3s ease;
+}
+
+.bookmark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(-2px 2px 4px rgba(0,0,0,0.3));
+}
+
+.bookmark:hover {
+  left: -180px; 
+  z-index: 1; 
+}
+
+.bookmark.active {
+  z-index: 4;
+}
+
+.notebook main {
+  scrollbar-width: thin; 
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent; 
+}
+
+.notebook main::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.notebook main::-webkit-scrollbar-track {
+  background: transparent; 
+  border-radius: 10px;
+}
+
+.notebook main::-webkit-scrollbar-thumb {
+  background-color: transparent; 
+  border-radius: 10px;
+}
+
+.notebook main:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); 
+}
+
+.notebook main::-webkit-scrollbar-thumb:hover,
+.notebook main::-webkit-scrollbar-thumb:active {
+  background-color: rgba(0, 0, 0, 0.4); 
+}
+
+.home-container {
+  display: flex;
+  gap: 20px;
+  max-width: 1000px; 
+  margin: 0 auto;
+}
+
+.home-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 50px; 
+  flex: 1; 
+}
+
+.home-right-column {
+  flex: 1; 
+}
+
+.home-image-container {
+  position: relative;
+  height: 100%;
+}
+
+.home-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.home-content-a,
+.home-content-b,
+.home-content-c {
+  position: absolute;
+  left: 0;
+  right: 0;
+  font-size:13px;
+  color: #17364E;
+  box-sizing: border-box;
+  overflow-y: auto;
+  text-align: justify;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.home-content-a {
+  top: 50px;
+  padding: 0px 5px 15px 15px;
+  height: 92%;
+}
+
+.home-content-b {
+  top: 40px;
+  padding: 0px 5px 15px 15px;
+  height: 90%;
+}
+
+.home-content-c {
+  top: 45px;
+  padding: 0px 15px 15px 15px;
+  height: 93%;
+}
+
+.home-content-a::-webkit-scrollbar,
+.home-content-b::-webkit-scrollbar,
+.home-content-c::-webkit-scrollbar {
+  display: none;
 }

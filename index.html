@@ -1,69 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
-    <!-- Change your site title: (It is shown in the tab) -->
+    <!-- Metadata -->
     <title>Pippironi</title>
-
-    <!-- Change your site description: (It is shown in Google results) -->
     <meta content="The small corner of the indieweb for Pippironi" name="description" />
-
-    <!-- Setting character encoding and viewport size. Do not remove. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- FavIcon (small image in tab), change to any image you want: -->
+    <!-- Favicon -->
     <link href="favicon.png" rel="icon" type="image/x-icon" />
 
-    <!-- CSS: -->
-    <!-- You will have to change this to "../style.css" if this HTML file is in a subfolder, to "../../style.css" if this HTML file is in 2 subfolders, etc. -->
+    <!-- CSS -->
     <link href="./style.css" rel="stylesheet" />
-    
-    <!-- JavaScript: -->
-    <!-- You will have to change this to "../layout.js" if this HTML file is in a subfolder, to "../../layout.js" if this HTML file is in 2 subfolders, etc. -->
+
+    <!-- JavaScript -->
     <script src="./layout.js"></script>
 
     <script>
-      // Template generated with petrapixel's layout generator.
-      // (Please do not remove this credit.)
       console.log("%cTemplate generated with petrapixel's layout generator: https://petrapixel.neocities.org/coding/layout-generator", "font-size: 14pt; color: #922a45; background: #ffd3ef");
     </script>
   </head>
+
   <body>
-    <!-- The next line is a skip-to-content link for keyboard users. Do not remove it! -->
+    <!-- Skip-to-content link -->
     <a href="#content" id="skip-to-content-link">Skip to content</a>
 
-    <div class="layout">
-      
-      <!-- =============================================== -->
-      <!-- Header (and Sidebars) will be loaded per JavaScript! Edit layout.js to change. -->
-      <!-- =============================================== -->
+    <!-- NOTEBBOOK WRAPPER (contains everything) -->
+    <div class="notebook">
+     <div class="layout">
+        <main id="content">
 
-  
-      <main id="content"> <!-- Do NOT remove the ID here -->
 
         <noscript>Please enable JavaScript to view this website!</noscript>
+        <div class="home-container">
+          <div class="home-left-column">
+            <div class="home-image-container">
+              <img src="/images/homepage_layout/about_note.png" alt="About" style="height: 120%; width:105%">
+              <div class="home-content-a">
+                
+                Pippironi's notebook contains a collection of the books that I've read, including some thoughts and reviews. It also has a blog where I write about random thoughts I may have and a forest section where I record the cool plants and bugs that I found on my walks!
 
-        <!-- =============================================== -->
-        <!-- MAIN CONTENT -->
-        <!-- =============================================== -->
+              </div>
+            </div>
+            <div class="home-image-container">
+              <img src="/images/homepage_layout/memberships_note.png" alt="Memberships" style="height: 110%; width:105%; ">
+              <div class="home-content-b">
 
-        <img class="wip", src='./images/wip.png'>
+              Coming soon!
 
-        <section>
+              </div>
+            </div>
+          </div>
+          <div class="home-right-column">
+            <div class="home-image-container" style="height: 100%;">
+              <img src="/images/homepage_layout/updates_note.png" alt="Updates" style="height: 105%;">
+              <div class="home-content-c">
 
-        </section>
-      </main>
-      
-      <!-- =============================================== -->
-      <!-- Footer will be loaded per JavaScript! Edit layout.js to change. -->
-      <!-- =============================================== -->
+                        <iframe src="https://nikki.top/api.php?id=304&limit=5" class="status-frame"></iframe>
 
-  
-    <!-- Closing .layout: -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        </main>
+      </div>
     </div>
-
-
-    <!-- Add any additional Javascript code (<script></script>) here. -->
   </body>
 </html>

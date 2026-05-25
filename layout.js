@@ -1,101 +1,56 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Page has finished loading. Now, do things.
   loadLayoutByPetraPixel();
-
-  // Add any custom JavaScript code here...
 });
 
 function loadLayoutByPetraPixel() {
   const mainEl = document.querySelector("main");
   if (!mainEl) return;
-  mainEl.insertAdjacentHTML("beforebegin", headerHTML());
+
+  // ONLY inject footer inside .layout
   mainEl.insertAdjacentHTML("afterend", footerHTML());
+
+  // Inject bookmarks inside .notebook
+  const notebookEl = document.querySelector(".notebook");
+  if (notebookEl) {
+    notebookEl.insertAdjacentHTML("beforeend", bookmarksHTML());
+  }
+
   giveActiveClassToCurrentPage();
+  giveActiveClassToCurrentBookmark();
 }
 
 const nesting = getNesting();
 
-function headerHTML() {
-  // ${nesting} outputs "./" or "../" depending on current page depth.
-  // You can use it to refer to images etc.
-  // Example: <img src="${nesting}img/logo.png"> might output <img src="../img/logo.png">
-
+// --- BOOKMARKS ---
+function bookmarksHTML() {
   return `
-  
-      <!-- =============================================== -->
-      <!-- HEADER -->
-      <!-- =============================================== -->
-
-      <header>
-
-        <div class="header-content">
-	        <div class="header-title">Pippironi's Curiosities</div>
-	        
-	        <!-- NAVIGATION -->
-	        <nav>
-	          <ul>
-	            <li><a href="/">Home</a></li>
-<!--	            <li><a href="/page1">Page 1</a></li>
-	            <li><a href="/page2">Page 2</a></li>
-	            <li><a href="/page3">Page 3</a></li>
-	            <li>
-	                <strong>Submenu (hover to show)</strong>
-	                <ul>
-	                  <li><a href="/page-a">Page A</a></li>
-	                  <li><a href="/page-b">Page B</a></li>
-	                  <li><a href="/page-c">Page C</a></li>
-	                  <li><a href="/page-d">Page D</a></li>
-	                  <li><a href="/page-e">Page E</a></li>
-	                </ul>
-	            </li> -->
-	          </ul>
-	        </nav>
-        	
-        </div>
-      </header>
-
-	  
-        
-      <!-- =============================================== -->
-      <!-- LEFT SIDEBAR -->
-      <!-- =============================================== -->
-
-      <aside class="left-sidebar">
-	  
-      <div class="sidebar-section">
-        <div class="sidebar-title" style="display: flex; justify-content: space-between; align-items: center;">
-          Status Updates
-          <a href="https://nikki.top" target="_blank" style="display: inline-block;">
-            <img src="./buttons/nikki.png" style="padding: 10px; height: auto;">
-          </a>
-        </div>
-        <iframe src="https://nikki.top/api.php?id=304&limit=5" class="status-frame"></iframe>
-      </div>
-        
-      </aside>
-	
-      `;
+    <div class="bookmarks">
+      <a href="/" class="bookmark" data-page="home" title="Home">
+        <img src="${nesting}/images/layout/home_sticky.png" alt="Home">
+      </a>
+      <a href="/bookbug/" class="bookmark" data-page="bookbug" title="Books">
+        <img src="${nesting}/images/layout/books_sticky.png" alt="Books">
+      </a>
+      <a href="/blog/" class="bookmark" data-page="blog" title="Blog">
+        <img src="${nesting}/images/layout/blog_sticky.png" alt="Blog">
+      </a>
+      <a href="/nature/" class="bookmark" data-page="nature" title="Nature">
+        <img src="${nesting}/images/layout/nature_sticky.png" alt="Nature">
+      </a>
+    </div>
+  `;
 }
 
+// --- FOOTER ---
 function footerHTML() {
-  // ${nesting} outputs "./" or "../" depending on current page depth.
-  // You can use it to refer to images etc.
-  // Example: <img src="${nesting}img/logo.png"> might output <img src="../img/logo.png">
-
   return `
-
-
-      <!-- =============================================== -->
-      <!-- FOOTER -->
-      <!-- =============================================== -->
-
-      <footer>
-            <div>Footer Text. <a href="/">Link.</a> Template generated with <a href="https://petrapixel.neocities.org/coding/layout-generator.html">petrapixel's layout generator</a>.</div>
-      </footer>`;
+    <footer>
+      <div>Footer Text. <a href="/">Link.</a> Template generated with <a href="https://petrapixel.neocities.org/coding/layout-generator.html">petrapixel's layout generator</a>.</div>
+    </footer>
+  `;
 }
 
-/* Do not edit anything below this line unless you know what you're doing. */
-
+// --- ACTIVE PAGE LOGIC ---
 function giveActiveClassToCurrentPage() {
   const els = document.querySelectorAll("nav a");
   [...els].forEach((el) => {
@@ -103,29 +58,59 @@ function giveActiveClassToCurrentPage() {
     const pathname = window.location.pathname.replace("/public/", "");
     const currentHref = window.location.href.replace(".html", "") + "END";
 
-	/* Homepage */
     if (href == "/" || href == "/index.html") {
-      if (pathname == "/") {
-        el.classList.add("active");
-      }
+      if (pathname == "/") el.classList.add("active");
     } else {
-      /* Other pages */
       if (currentHref.includes(href + "END")) {
         el.classList.add("active");
-
-        /* Subnavigation: */
-		
         if (el.closest("details")) {
           el.closest("details").setAttribute("open", "open");
           el.closest("details").classList.add("active");
         }
-
         if (el.closest("ul")) {
           if (el.closest("ul").closest("ul")) {
-          	el.closest("ul").closest("ul").classList.add("active");
+            el.closest("ul").closest("ul").classList.add("active");
           }
         }
       }
+    }
+  });
+}
+
+// --- ACTIVE BOOKMARK LOGIC ---
+function giveActiveClassToCurrentBookmark() {
+  const bookmarks = document.querySelectorAll('.bookmark');
+  let currentPath = window.location.pathname.toLowerCase();
+  
+  // Clean up the URL to make matching easy
+  currentPath = currentPath.replace('/index.html', '');
+  if (currentPath.endsWith('/') && currentPath.length > 1) {
+      currentPath = currentPath.slice(0, -1);
+  }
+
+  let matched = false;
+  
+  // Check bookmarks in reverse. That way we check specific folders before falling back to Home
+  Array.from(bookmarks).reverse().forEach(bookmark => {
+    bookmark.classList.remove('active');
+    
+    let href = bookmark.getAttribute('href').toLowerCase();
+    href = href.replace('/index.html', '');
+    if (href.endsWith('/') && href.length > 1) {
+        href = href.slice(0, -1);
+    }
+
+    if (!matched) {
+        // If it's a sub-page (like /test) and our URL contains it
+        if (href !== '/' && href !== '' && currentPath.includes(href)) {
+            bookmark.classList.add('active');
+            matched = true;
+        } 
+        // If we made it all the way back to the Home icon ("/") without finding a match
+        else if (href === '/' || href === '') {
+            bookmark.classList.add('active');
+            matched = true;
+        }
     }
   });
 }

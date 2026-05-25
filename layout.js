@@ -45,7 +45,7 @@ function bookmarksHTML() {
 function footerHTML() {
   return `
     <footer>
-      <div>Footer Text. <a href="/">Link.</a> Template generated with <a href="https://petrapixel.neocities.org/coding/layout-generator.html">petrapixel's layout generator</a>.</div>
+      <div></div>
     </footer>
   `;
 }
